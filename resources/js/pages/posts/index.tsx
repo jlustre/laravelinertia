@@ -1,6 +1,7 @@
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
+import { Inertia } from '@inertiajs/inertia';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
@@ -27,6 +28,12 @@ interface Flash {
 export default function PostIndex({ posts }: { posts: Post[] }) {
     const { flash } = usePage<{ flash: Flash }>().props;
 
+    const handleDelete = (postId) => {
+        if (confirm('Are you sure you want to delete this post?')) {
+            Inertia.delete(`/posts/${postId}`);
+        }
+    };
+
     useEffect(() => {
         if (flash.success) {
             toast.success(flash.success);
@@ -45,7 +52,7 @@ export default function PostIndex({ posts }: { posts: Post[] }) {
                 </div>
                 <div className="border-sidebar-border/70 dark:border-sidebar-border relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border md:min-h-min">
                     <Table>
-                        <TableCaption>A list of your recent posts.</TableCaption>
+                        <TableCaption>{posts.length === 0 ? 'No post available!' : 'A list of your recent posts.'}</TableCaption>
                         <TableHeader>
                             <TableRow>
                                 <TableHead className="w-[100px]">ID</TableHead>
@@ -69,19 +76,17 @@ export default function PostIndex({ posts }: { posts: Post[] }) {
                                     <TableCell className="text-right">
                                         <Link
                                             href={route('posts.edit', post.id)}
-                                            className="text-indigo-600 hover:cursor-pointer hover:text-indigo-900 hover:underline"
+                                            className="text-sm text-green-600 hover:cursor-pointer hover:text-green-900 hover:underline"
                                         >
                                             Edit/View
                                         </Link>{' '}
-                                        |
-                                        <Link
-                                            href={route('posts.destroy', post.id)}
-                                            method="delete"
-                                            as="button"
-                                            className="ml-2 text-red-600 hover:underline"
+                                        |{' '}
+                                        <button
+                                            className="text-sm text-red-600 hover:cursor-pointer hover:text-red-900 hover:underline"
+                                            onClick={() => handleDelete(post.id)}
                                         >
                                             Delete
-                                        </Link>
+                                        </button>
                                     </TableCell>
                                 </TableRow>
                             ))}

@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Post;
 
+use function Laravel\Prompts\confirm;
 
 class PostController extends Controller
 {
@@ -100,7 +101,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //lets delete first the image of the post
+      //lets delete first the image of the post
         if ($post->image) {
             Storage::disk('public')->delete($post->image);
         }

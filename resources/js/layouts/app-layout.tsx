@@ -13,6 +13,7 @@ export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => (
         {children}
         <Toaster
             position="top-right"
+            richColors
             autoClose={5000}
             hideProgressBar={false}
             newestOnTop={false}
