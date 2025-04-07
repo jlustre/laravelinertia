@@ -33,7 +33,10 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Pass the remember value to the login method
+        Auth::login($request->user(), $request->boolean('remember'));
+
+        return redirect()->intended(route('dashboard'));
     }
 
     /**

@@ -53,6 +53,14 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Get the sponsor for the user.
+     */
+    public function sponsor()
+    {
+        return $this->belongsTo(User::class, 'sponsor_id');
+    }
+
     //Create A Permission
     public function createPermission($permission)
     {

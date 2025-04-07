@@ -63,7 +63,10 @@ export default function PostIndex({ posts }: { posts: Post[] }) {
                         </TableHeader>
                         <TableBody>
                             {posts.map((post) => (
-                                <TableRow key={post.id}>
+                                <TableRow
+                                    key={post.id}
+                                    className="border-b-1 border-gray-200 transition-colors even:bg-green-50 hover:bg-gray-100 dark:text-gray-700 dark:odd:bg-green-100 dark:hover:text-gray-900"
+                                >
                                     <TableCell>{post.id}</TableCell>
                                     <TableCell>
                                         <img

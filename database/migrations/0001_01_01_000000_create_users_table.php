@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('username')->unique();
             $table->string('avatar')->nullable();
-            $table->foreignId('sponsor_id')->default(1)->constrained('users'); // what is this constrained for?
+            $table->unsignedBigInteger('sponsor_id');
+            $table->foreign('sponsor_id')->references('id')->on('users');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
@@ -31,6 +32,7 @@ return new class extends Migration
         DB::table('users')->insert([
             'name' => 'Super Admin User',
             'username' => 'superadmin',
+            'sponsor_id' => 1,
             'email' => 'superadmin@example.com',
             'password' => Hash::make('password'),
             'created_at' => now(),

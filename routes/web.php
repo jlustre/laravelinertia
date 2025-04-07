@@ -1,18 +1,17 @@
 <?php
 
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\PostCreateController;
-use App\Http\Controllers\PostDestroyController;
-use App\Http\Controllers\PostEditController;
-use App\Http\Controllers\PostIndexController;
-use App\Http\Controllers\PostStoreController;
-use App\Http\Controllers\PostUpdateController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\LegalController;
 
-Route::get('/', function () {
-    return Inertia::render('welcome');
-})->name('home');
+Route::get('/', function () { return Inertia::render('welcome'); })->name('home');
+Route::get('/terms', [LegalController::class, 'terms'])->name('terms');
+Route::get('/privacy', [LegalController::class, 'privacy'])->name('privacy');
+
+// Route::get('/login', function () { return Inertia::render('login'); })->name('login');
+// Route::get('/register', function () { return Inertia::render('register'); })->name('register');
+// Route::get('/forgot-password', function () { return Inertia::render('forgot-password'); })->name('forgot-password');
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {

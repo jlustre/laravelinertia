@@ -18,7 +18,17 @@ class ProfileUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-
+            'username' => ['required',
+            'string',
+            'lowercase',
+            'max:50',
+            'regex:/^\S*$/u',
+            Rule::unique(User::class)->ignore($this->user()->id),],
+            'sponsor' => [
+                'required',
+                'string',
+                'exists:'.User::class.',username',
+            ],
             'email' => [
                 'required',
                 'string',
@@ -27,6 +37,27 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
+        ];
+    }
+
+    //  'name' => 'required|string|max:255',
+    //         'username' => 'required|string|lowercase|max:50|regex:/^\S*$/u|unique:'.User::class,
+    //         'sponsor' => 'required|exists:'.User::class.',username',
+    //         'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+    //         'password' => ['required','min:8', 'confirmed', Rules\Password::defaults()],
+    //         'password_confirmation' => 'required',
+    //         'terms' => 'accepted',
+
+
+    /**
+     * Get the custom messages for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'username.regex' => 'The username must not contain spaces.',
         ];
     }
 }
